@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "train.h"
-#include "queue.h"
  
 /* A global to assign IDs to our trains */ 
 int idNumber = 1;
@@ -85,7 +84,8 @@ TrainInfo *createTrain ( void )
 		char temp = theBuffer[0];
 		theBuffer[0] = 0;
 		char str[9];
-		for(int num = 0; num < 9; num++)
+		int num;
+		for(num = 0; num < 9; num++)
 		{
 			str[num] = theBuffer[num+1];
 		}
