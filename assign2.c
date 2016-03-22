@@ -46,7 +46,7 @@ pthread_cond_t	doSomething = PTHREAD_COND_INITIALIZER;
 pthread_cond_t	noTrainsCond = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t queueLock;
 
-sem_t *done;
+sem_t done;
 
 
 int turn = -1;
@@ -162,7 +162,7 @@ void ArriveBridge ( TrainInfo *train )
 
 	//printf ("My turn: %d %d\n", turn, myid);
 	pthread_mutex_unlock(&mutex);
-	sem_post (done);
+	sem_post (&done);
 
 
 
@@ -433,7 +433,7 @@ ALTERNATE SOLUTION IF I MISUNDERSTOOD THE PROBLEM DEFINITION
 	pthread_mutex_unlock(&mutex);
 	unlock(queueLock);
 	pthread_cond_broadcast (&doSomething);
-	sem_wait(done);
+	sem_wait(&done);
 	//printf("Train left the bridge.\n");
 }
 
@@ -506,7 +506,8 @@ int main ( int argc, char *argv[] )
 	{
 		pthread_join (tids[i], NULL);
 	}
-	for(int x = 0; x < 4; x++)
+	int x;
+	for(x = 0; x < 4; x++)
 	{
 		lock(queueLock);
 		//printf("Train IDs: %d \n", eastTrainArray[x]);
